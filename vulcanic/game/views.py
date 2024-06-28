@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     if "counter" not in request.session:
         request.session["counter"] = 0
-    return render(request, "game/index2.html", {
+    return render(request, "game/index.html", {
         "counter": request.session["counter"]
     })
 

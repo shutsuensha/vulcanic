@@ -45,23 +45,24 @@
         }
     </style>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.save').onclick = save;
-    });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.save').onclick = save;
+        });
 
-    function save() {
-        fetch('/save', {
-            method: 'POST',
-            body: JSON.stringify({
-                counter: clickCount
+        function save() {
+            fetch('/save', {
+                method: 'POST',
+                body: JSON.stringify({
+                    counter: clickCount
+                })
             })
-        })
-        .then(response => response.json())
-        .then(result => {
-        });   
-    }
-</script>
+            .then(response => response.json())
+            .then(result => {
+                // Handle response if needed
+            });   
+        }
+    </script>
 </head>
 <body>
 
@@ -72,10 +73,7 @@
         <button class="save">Save</button>
     </div>
 
-    <!-- Audio element for background music -->
-
     <script>
-
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -227,9 +225,6 @@
             fallingImage.onload = function() {
                 // Start the game loop
                 gameLoop();
-                // Play background music
-                const backgroundMusic = document.getElementById('backgroundMusic');
-                backgroundMusic.play();
             };
         };
 

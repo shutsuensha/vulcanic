@@ -43,6 +43,18 @@
             cursor: pointer;
             text-align: center;
         }
+
+        .alert {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
     </style>
 
     <script>
@@ -51,6 +63,7 @@
         });
 
         function save() {
+            // Show alert
             fetch('/save', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -61,6 +74,16 @@
             .then(result => {
                 // Handle response if needed
             });   
+            
+            const alertBox = document.createElement('div');
+            alertBox.className = 'alert';
+            alertBox.innerHTML = '<p>Saving...</p>';
+            document.body.appendChild(alertBox);
+
+            // Close alert after 2 seconds
+            setTimeout(() => {
+                alertBox.remove();
+            }, 500);
         }
     </script>
 </head>
@@ -101,7 +124,7 @@
                 this.size = 48; // Size matching counter text size
                 this.speedX = (Math.random() - 0.5) * 8; // Chaotic speed in x direction
                 this.speedY = (Math.random() - 0.5) * 8; // Chaotic speed in y direction
-                this.color = 'gold'; // Color of the particle
+                this.color = this.getRandomColor(); // Random color for the particle
             }
 
             update() {
@@ -122,6 +145,11 @@
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('$', this.x, this.y);
+            }
+
+            getRandomColor() {
+                const colors = ['#FF5733', '#FFC300', '#C70039', '#900C3F', '#581845']; // Add more colors if needed
+                return colors[Math.floor(Math.random() * colors.length)];
             }
         }
 
@@ -152,6 +180,7 @@
                     drawFallingImage(); // Redraw falling image (if needed)
                     drawParticles(); // Redraw particles (if needed)
                     drawCounterJump(originalY + deltaY); // Draw counter with jump effect
+                    drawSpongeBombText(); // Draw "SPONGE BOMB" text
                     requestAnimationFrame(animate);
                 }
             }
@@ -167,6 +196,15 @@
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(clickCount, gameWidth / 2, y);
+        }
+
+        // Draw "SPONGE BOMB" text
+        function drawSpongeBombText() {
+            ctx.fillStyle = 'black'; // Set text color to white
+            ctx.font = '30px Bungee'; // Set font size and family
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('SVO ZZZZOVVVV GOIIIDA', gameWidth / 2, 40); // Position at the top middle of the canvas
         }
 
         // Clear canvas
@@ -241,11 +279,9 @@
         });
     </script>
 
-    <!-- Background music -->
     <audio id="backgroundMusic" autoplay loop>
         <source src="https://d2luddxp0py34j.cloudfront.net/m78tns%2Ffile%2F52d4cb1e504c78af7d5d7e1ea9e2875f_db33140a68e3cbb10657263817515174.mp3?response-content-disposition=inline%3Bfilename%3D%2252d4cb1e504c78af7d5d7e1ea9e2875f_db33140a68e3cbb10657263817515174.mp3%22%3B&response-content-type=audio%2Fmpeg&Expires=1719606102&Signature=OZqd1J8pUGYx8S628Msli4VDHeQOyH5Fabiq81wRJM~bwrmVNHTmvUc3NPiGY5XK6XFtadih9zsp63YP03AgzmCBy5IoX3~-LisHcrh01X9~p4AzoxiJn3O63iYUzw-jitp~c56LQ1G3BSq6MHmDIuCjh6c9q6a1z3tag-Ku~SPU1FssdIacKBIzZQfzLOv0~uNmRV3IljorUC1h7TmqB7JPy~AFf8ncW9KgXvaJDe8GeWmfr1dD7iGMtlXD~eZ1cYfqRbYpfz9tCcVYRabu~K~EGC-8juZgwQcI3noVPQKDRGa6NeFda1QkJxiQYYyod2g~04jzPtJOxfFDydvRtw__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-
 </body>
 </html>
